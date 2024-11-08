@@ -1,0 +1,20 @@
+# LLM Frameworks
+## Langchain
+langchain
+langchain-core
+langchain-openai
+langchain-community
+langchain-google-genai
+
+## LlamaIndex
+llama-index
+
+# LLM Observability Tools
+arize-phoenix
+mlflow
+
+# Other
+python-dotenv
+ipykernel
+jupyter
+ipywidgets
