@@ -1,4 +1,4 @@
 .env
 *.pyc
 mlartifacts
-mlflow/mlruns
+mlruns
