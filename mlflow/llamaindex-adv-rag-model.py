@@ -1,11 +1,13 @@
 import mlflow
 
 from pathlib import Path
-from llama_index.llms.gemini import Gemini
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Document, StorageContext, load_index_from_storage, ServiceContext
+from llama_index.llms.openai import OpenAI
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Document, StorageContext, load_index_from_storage
 from llama_index.core.node_parser import SentenceWindowNodeParser
 from llama_index.core.indices.postprocessor import MetadataReplacementPostProcessor, SentenceTransformerRerank
-from llama_index.core.response.notebook_utils import display_response
+from llama_index.core.settings import Settings
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+
 
 
 from dotenv import load_dotenv
@@ -19,7 +21,7 @@ DATA_DIR = Path('..', 'data')
 INPUT_FPATH = Path(DATA_DIR, "eBook-How-to-Build-a-Career-in-AI.pdf")
 SENTENCE_INDEX_PATH = Path(DATA_DIR, "sentence_index")
 
-LLM_MODEL_NAME = "models/gemini-1.5-flash-002"
+LLM_MODEL_NAME = "models/gpt4o-mini"
 TEMPERATURE = 0.1
 
 EMBED_MODEL = "local:BAAI/bge-small-en-v1.5" # "local:BAAI/bge-large-en-v1.5"
@@ -30,7 +32,7 @@ SIMILARITY_TOP_K = 6
 RERANK_TOP_N = 2
 
 # Setting up LLM
-llm = Gemini(model_name=LLM_MODEL_NAME, temperature=TEMPERATURE)
+llm = OpenAI(model_name=LLM_MODEL_NAME, temperature=TEMPERATURE)
 
 # Index Creation
 ## Load data
@@ -48,22 +50,19 @@ node_parser = SentenceWindowNodeParser.from_defaults(
     original_text_metadata_key="original_text",
 )
 
-## Sentence Context Model
-sentence_context = ServiceContext.from_defaults(
-    llm=llm,
-    embed_model=EMBED_MODEL,
-    node_parser=node_parser,
-)
+## Llama-Index Global Settings
+Settings.llm=llm
+Settings.node_parser = node_parser
 
 # Create the sentence index
 # if an index file exist, then it will load it
 # if not, it will rebuild it
 if not SENTENCE_INDEX_PATH.exists():
-    sentence_index = VectorStoreIndex.from_documents([document], service_context=sentence_context)
+    sentence_index = VectorStoreIndex.from_documents([document], embed_model=EMBED_MODEL)
     sentence_index.storage_context.persist(persist_dir=SENTENCE_INDEX_PATH)
 
 else:
-    sentence_index = load_index_from_storage(StorageContext.from_defaults(persist_dir=SENTENCE_INDEX_PATH), service_context=sentence_context)
+    sentence_index = load_index_from_storage(StorageContext.from_defaults(persist_dir=SENTENCE_INDEX_PATH), embed_model=EMBED_MODEL)
 
 # Post Processing
 ## Instead of passing only the retrieved sentence, we pass a window of sentences - Sentence Window Retrieval
