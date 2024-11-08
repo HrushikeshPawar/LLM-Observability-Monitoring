@@ -2,3 +2,7 @@
 *.pyc
 mlartifacts
 mlruns
+*.faiss
+*pkl
+*.json
+*.text
