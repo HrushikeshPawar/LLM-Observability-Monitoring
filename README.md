@@ -40,8 +40,9 @@ This project explores LLM Observation and Monitoring tools. It includes various 
 
 4. **Run the Notebooks**
 
-   Open the notebooks in the `mlflow`
- directory and run them as needed.
+   Open the notebooks in the `mlflow` directory and run them as needed.
+
+   While running the notebooks, goto `localhost:5000` or `127.0.0.1:5000` on your browser to look at the traces.
 
 ## Notebooks Overview
 
