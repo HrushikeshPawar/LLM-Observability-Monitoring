@@ -13,6 +13,9 @@ llama-index
 arize-phoenix
 mlflow
 
+# VectorIndex
+faiss-cpu
+
 # Other
 python-dotenv
 ipykernel
