@@ -6,7 +6,6 @@ from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Document, 
 from llama_index.core.node_parser import SentenceWindowNodeParser
 from llama_index.core.indices.postprocessor import MetadataReplacementPostProcessor, SentenceTransformerRerank
 from llama_index.core.settings import Settings
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 
 
 
