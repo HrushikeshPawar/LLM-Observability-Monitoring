@@ -30,29 +30,25 @@ This project explores LLM Observation and Monitoring tools. It includes various 
    OPENAI_API_KEY=your_openai_api_key
    ```
 
-3. **Start MLflow Server**
+3. **Start repective tool server**
 
-   Before running any notebook, start the MLflow tracking server on port 5000:
-
-   ```bash
-   mlflow server --host 127.0.0.1 --port 5000
-   ```
+   Before running any notebook, follow the instructions given in respective readme files to start the server.
 
 4. **Run the Notebooks**
 
-   Open the notebooks in the `mlflow` directory and run them as needed.
+   Open the notebooks in the respective directory and run them as needed.
 
-   While running the notebooks, goto `localhost:5000` or `127.0.0.1:5000` on your browser to look at the traces.
+   While running the notebooks, goto `localhost:<port>` or `127.0.0.1:<port>>` on your browser to look at the traces.
 
 ## Notebooks Overview
 
-- `langchain-hello-world.ipynb`: Introduction to using LangChain with MLflow for simple language model interactions.
-- `langchain-simple-rag.ipynb:` Demonstrates Retrieval-Augmented Generation using LangChain and MLflow.
-- `llamaindex-hello-world.ipynb:` Introduction to using LlamaIndex with MLflow for indexing and querying documents.
+- `langchain-hello-world.ipynb`: Introduction to using LangChain with Tracing tool for simple language model interactions.
+- `langchain-simple-rag.ipynb:` Demonstrates Retrieval-Augmented Generation using LangChain and Tracing tool.
+- `llamaindex-hello-world.ipynb:` Introduction to using LlamaIndex with Tracing tool for indexing and querying documents.
 - `llamaindex-advance-rag.ipynb`: Advanced RAG techniques (Sentence Window Retrieval + ReRanking) using LlamaIndex, including custom query engines.
 
 
 ## Notes
 
 - Ensure that you have set up the required API keys in the `.env` file before running the notebooks.
-- The MLflow server must be running on port `5000` to enable experiment tracking and model logging.
+- The Tracing tool server must be running on respective ports to enable experiment tracking and tracing.
