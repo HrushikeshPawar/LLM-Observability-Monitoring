@@ -6,3 +6,5 @@ mlruns
 *pkl
 *.json
 *.text
+
+*.log
