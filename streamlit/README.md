@@ -1,5 +1,21 @@
 # Streamlit LLM Observability Demo Guide
 
+## UI Images
+<details>
+    <summary>Streamlit UI</summary>
+    <img src="https://github.com/HrushikeshPawar/LLM-Observability-Monitoring/blob/main/streamlit/assets/streamlit-ui.png?raw=true">
+</details>
+<details>
+    <summary>Phoenix UI</summary>
+    <img src="https://github.com/HrushikeshPawar/LLM-Observability-Monitoring/blob/main/streamlit/assets/phoenix-projects-ui.png?raw=true">
+    <img src="https://github.com/HrushikeshPawar/LLM-Observability-Monitoring/blob/main/streamlit/assets/phoenix-traces-ui.png?raw=true">
+</details>
+<details>
+    <summary>MLflow UI</summary>
+    <img src="https://github.com/HrushikeshPawar/LLM-Observability-Monitoring/blob/main/streamlit/assets/mlflow-projects-ui.png?raw=true">
+</details>
+
+
 ## Overview
 This directory contains a Streamlit demo application demonstrating LLM Observability using a RAG (Retrieval Augmented Generation) application with LLM tracing using [MLflow](https://mlflow.org/docs/latest/llms/tracing/index.html) and [Phoenix](https://docs.arize.com/phoenix/tracing/llm-traces). The app includes a [FastAPI](https://fastapi.tiangolo.com/) backend and [Streamlit](https://streamlit.io/) frontend.
 
