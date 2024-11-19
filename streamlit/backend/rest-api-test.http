@@ -1,0 +1,81 @@
+curl -X 'POST' \
+  'http://127.0.0.1:8000/rag_query_engine' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "query": "Explain the scenario planning exercise mentioned in the context of the Covid-19 pandemic.",
+  "input_fname": "eBook-How-to-Build-a-Career-in-AI.pdf",
+  "llm_name": "gemini-1.5-flash-002",
+  "temperature": 0,
+  "similarity_top_k": 12,
+  "reranker_model_name": "BAAI/bge-reranker-base",
+  "reranker_top_n": 6,
+  "embed_model_name": "models/text-embedding-004",
+  "data_dir": "/media/hrushikesh/SharedDrive/ActiveProjects/LLM-Observability-Monitoring/data"
+}'
+
+### Chat Engine - Message 1
+
+curl -X 'POST' \
+  'http://127.0.0.1:8000/query_chat_engine' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "query": "Explain the scenario planning exercise mentioned in the context of t`he Covid-19 pandemic.",
+  "input_fname": "eBook-How-to-Build-a-Career-in-AI.pdf",
+  "llm_name": "gemini-1.5-flash-002",
+  "temperature": 0,
+  "similarity_top_k": 12,
+  "reranker_model_name": null,
+  "reranker_top_n": 6,
+  "embed_model_name": "models/text-embedding-004",
+  "data_dir": "/media/hrushikesh/SharedDrive/ActiveProjects/LLM-Observability-Monitoring/data"
+}'
+
+### Chat Engine - Continued - Message 2
+
+curl -X 'POST' \
+  'http://127.0.0.1:8000/query_chat_engine' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "query": "How can this method be applied to personal life situations such as job hunting or exam preparation?",
+  "input_fname": "eBook-How-to-Build-a-Career-in-AI.pdf",
+  "llm_name": "gemini-1.5-flash-002",
+  "temperature": 0,
+  "similarity_top_k": 12,
+  "reranker_model_name": null,
+  "reranker_top_n": 6,
+  "embed_model_name": "models/text-embedding-004",
+  "data_dir": "/media/hrushikesh/SharedDrive/ActiveProjects/LLM-Observability-Monitoring/data",
+  "chat_history": [
+    {
+      "role": "user",
+      "content": "Explain the scenario planning exercise mentioned in the context of t`he Covid-19 pandemic.",
+      "additional_kwargs": {}
+    },
+    {
+      "role": "assistant",
+      "content": "The provided text describes a scenario planning exercise used by the author during the COVID-19 pandemic in March 2020.  The exercise involved imagining three different recovery scenarios from the pandemic:\n\n* **Quick recovery (three months):**  The author planned for how they would manage this scenario.\n* **Medium recovery (one year):**  Again, plans were made to address this potential timeline.\n* **Slow recovery (two years):**  Similar to the other scenarios, plans were developed to handle a prolonged recovery.\n\nThe purpose of this exercise was to help the author prioritize actions and regain a sense of control in the face of uncertainty.  The plans created for each scenario guided their actions and allowed them to adapt as the situation evolved.  The text suggests this method can be applied to other uncertain situations, such as passing an exam or getting a job offer.\n",
+      "additional_kwargs": {}
+    }
+  ]
+}'
+
+### Chat Engine - Fail Case - Message 1
+
+curl -X 'POST' \
+  'http://127.0.0.1:8000/query_chat_engine' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "query": "How can this method be applied to personal life situations such as job hunting or exam preparation?",
+  "input_fname": "eBook-How-to-Build-a-Career-in-AI.pdf",
+  "llm_name": "gemini-1.5-flash-002",
+  "temperature": 0,
+  "similarity_top_k": 12,
+  "reranker_model_name": null,
+  "reranker_top_n": 6,
+  "embed_model_name": "models/text-embedding-004",
+  "data_dir": "/media/hrushikesh/SharedDrive/ActiveProjects/LLM-Observability-Monitoring/data"
+}'
