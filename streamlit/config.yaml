@@ -1,0 +1,27 @@
+# Data And Storage
+data_dir: "<DATA_DIR>"
+
+# LLMs
+available_llm_models: ["gemini-1.5-flash-8b", "gemini-1.5-flash-002", "gemini-1.5-pro-002"]
+
+# Chunking and Embeddings
+node_parser_chunk_sizes: [4096, 2048, 1024, 512]
+node_parser_chunk_overlap: 128
+similarity_top_k: 12
+available_embed_models: ["text-embedding-004"]
+available_input_fnames: ['eBook-How-to-Build-a-Career-in-AI.pdf']
+reranker_model_name: null
+reranker_top_n: 6
+
+# FastAPI Setting
+fastapi_url: "http://127.0.0.1:8000"
+
+# Streamlit UI Settings
+streamlit_host: "0.0.0.0"
+streamlit_port: 8080
+
+# MLFlow Setting
+mlflow_tracking_uri: "http://localhost:5000"
+
+# Common Tracing Setting
+tracing_project_name: "llm-tracing-demo"
