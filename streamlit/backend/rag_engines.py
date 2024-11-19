@@ -1,22 +1,23 @@
-from typing import List
-from pathlib import Path
-
-from llama_index.core.node_parser import HierarchicalNodeParser
-from llama_index.core.postprocessor import SentenceTransformerRerank
-from llama_index.core.query_engine import RetrieverQueryEngine
-from llama_index.core.chat_engine import CondensePlusContextChatEngine
-from llama_index.core.llms.custom import CustomLLM
-from llama_index.core import Settings
-
-from index_manager import get_auto_merging_retriever, set_embed_model
-
 import os
 import yaml
 import mlflow
-import phoenix as px
+
+from typing import List
+from pathlib import Path
+
 from phoenix.otel import register
 from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
 from openinference.instrumentation.langchain import LangChainInstrumentor
+
+from llama_index.core import Settings
+from llama_index.core.llms.custom import CustomLLM
+from llama_index.core.query_engine import RetrieverQueryEngine
+from llama_index.core.node_parser import HierarchicalNodeParser
+from llama_index.core.postprocessor import SentenceTransformerRerank
+from llama_index.core.chat_engine import CondensePlusContextChatEngine
+
+from utils import set_embed_model
+from index_manager import get_auto_merging_retriever
 
 # Load the configuration file
 config_path = os.environ.get("CONFIG_PATH", Path(__file__).parent.parent / "config.yaml")

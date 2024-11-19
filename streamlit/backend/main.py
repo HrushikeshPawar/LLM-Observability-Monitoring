@@ -1,26 +1,27 @@
 import os
+import yaml
+import mlflow
 import logging
 import uvicorn
-import yaml
 
-from fastapi import FastAPI
 from pathlib import Path
+from fastapi import FastAPI
 
-from llama_index.core import Response, Settings
-from llama_index.llms.gemini import Gemini
-from llama_index.core.query_engine import RetrieverQueryEngine
-from llama_index.core.chat_engine import CondensePlusContextChatEngine
-from llama_index.core.node_parser import HierarchicalNodeParser
-from llama_index.core.base.llms.types import ChatMessage
-
-import mlflow
-import phoenix as px
 from phoenix.otel import register
 from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
 from openinference.instrumentation.langchain import LangChainInstrumentor
 
+from llama_index.llms.openai import OpenAI
+from llama_index.llms.gemini import Gemini
+from llama_index.core import Response, Settings
+from llama_index.core.base.llms.types import ChatMessage
+from llama_index.core.query_engine import RetrieverQueryEngine
+from llama_index.core.node_parser import HierarchicalNodeParser
+from llama_index.core.chat_engine import CondensePlusContextChatEngine
+
 from models import RAGConfig
-from rag_engines import get_retrieval_query_engine, get_retrieval_chat_engine, set_embed_model
+from utils import set_embed_model, set_llm
+from rag_engines import get_retrieval_query_engine, get_retrieval_chat_engine
 
 # Configure logging
 logging.basicConfig(filename="eval.log", encoding="utf-8", level=logging.INFO)
@@ -83,6 +84,14 @@ async def query_engine(
 async def query_chat_engine(
     rag_config: RAGConfig,
 ) -> dict:
+    # Set Global Settings
+    Settings.node_parser = HierarchicalNodeParser.from_defaults(
+        chunk_sizes=rag_config.node_parser_chunk_sizes,
+        chunk_overlap=rag_config.node_parser_chunk_overlap
+    )
+    Settings.embed_model = set_embed_model(rag_config.embed_model_name)
+    Settings.llm = set_llm(model_name=rag_config.llm_name, temperature=rag_config.temperature)
+
     chat_engine = get_retrieval_chat_engine(
         data_dir=rag_config.data_dir,
         input_fname=rag_config.input_fname,
@@ -92,14 +101,9 @@ async def query_chat_engine(
         chunk_overlap=rag_config.node_parser_chunk_overlap,
         reranker_model_name=rag_config.reranker_model_name,
         reranker_top_n=rag_config.reranker_top_n,
-        llm=Gemini(llm_name=rag_config.llm_name, temperature=rag_config.temperature),
+        llm=Settings.llm,
     )
     print("Chat engine ready! Setting node_parser and embed_model...")
-
-    Settings.node_parser = HierarchicalNodeParser.from_defaults(chunk_sizes=rag_config.node_parser_chunk_sizes, chunk_overlap=rag_config.node_parser_chunk_overlap)
-    Settings.embed_model = set_embed_model(rag_config.embed_model_name)
-    Settings.llm = Gemini(llm_name=rag_config.llm_name, temperature=rag_config.temperature)
-    chat_engine:CondensePlusContextChatEngine
 
     for msg in rag_config.chat_history:
         chat_engine.chat_history.append(ChatMessage(**msg))

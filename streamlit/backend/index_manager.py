@@ -1,18 +1,19 @@
-from typing import List
-from pathlib import Path
-
-from llama_index.core import SimpleDirectoryReader, Document, StorageContext, load_index_from_storage, VectorStoreIndex, Settings
-from llama_index.core.node_parser import HierarchicalNodeParser, get_leaf_nodes
-from llama_index.core.retrievers import AutoMergingRetriever
-from llama_index.embeddings.gemini import GeminiEmbedding
-
 import os
 import yaml
 import mlflow
-import phoenix as px
+
+from typing import List
+from pathlib import Path
+
 from phoenix.otel import register
 from openinference.instrumentation.llama_index import LlamaIndexInstrumentor
 from openinference.instrumentation.langchain import LangChainInstrumentor
+
+from llama_index.core.retrievers import AutoMergingRetriever
+from llama_index.core.node_parser import HierarchicalNodeParser, get_leaf_nodes
+from llama_index.core import SimpleDirectoryReader, Document, StorageContext, load_index_from_storage, VectorStoreIndex, Settings
+
+from utils import set_embed_model
 
 # Load the configuration file
 config_path = os.environ.get("CONFIG_PATH", Path(__file__).parent.parent / "config.yaml")
@@ -79,13 +80,4 @@ def get_auto_merging_retriever(
     print("Retriever ready! Returning retriever and node_parser...")
 
     return retriever
-
-
-def set_embed_model(embed_model:str) -> str | GeminiEmbedding:
-    if 'local:' in embed_model:
-        print(f"Loading local embedding model: {embed_model}")
-        return embed_model
-    else:
-        print(f"Loading Gemini embedding model: {embed_model}")
-        return GeminiEmbedding(model_name=embed_model)
 
