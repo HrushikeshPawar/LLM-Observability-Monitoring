@@ -21,7 +21,7 @@ curl -X 'POST' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
   -d '{
-  "query": "Explain the scenario planning exercise mentioned in the context of t`he Covid-19 pandemic.",
+  "query": "Explain the scenario planning exercise mentioned in the context of the Covid-19 pandemic.",
   "input_fname": "eBook-How-to-Build-a-Career-in-AI.pdf",
   "llm_name": "gemini-1.5-flash-002",
   "temperature": 0,
