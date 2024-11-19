@@ -23,12 +23,20 @@ mlflow>=2.17.2
 # VectorIndex
 faiss-cpu>=1.9.0
 
+# Demo App
+fastapi[standard]
+streamlit
+streamlit-extras
+
+# Evaluation
+ragas
+
 # Other
 python-dotenv
 pandas
 pypdf
-fastapi[standard]
-streamlit
+rapidfuzz
+spacy
 
 # Dev - For Jupyter
 ipykernel
